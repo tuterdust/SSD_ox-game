@@ -4,11 +4,11 @@ public class Game {
 	Scanner scanner;
 	Board b;
 	Player[] p = new Player[2];
-	
+
 	public Game() {
 		scanner = new Scanner(System.in);
 	}
-	
+
 	public static void main(String[] args) {
 		Game g = new Game();
 		g.start();
@@ -16,7 +16,7 @@ public class Game {
 
 	public boolean gameEnd(Player p, Board b) {
 		String check = p.getSymValue();
-		
+
 		int count = 0;
 		for (int i = 0; i < Board.SIZE; i++) {
 			for (int j = 0; j < Board.SIZE; j++) {
@@ -24,13 +24,13 @@ public class Game {
 					count++;
 				else
 					count = 0;
-				
+
 				if (count == 5)
 					return true;
 			}
 			count = 0;
 		}
-		
+
 		count = 0;
 		for (int i = 0; i < Board.SIZE; i++) {
 			for (int j = 0; j < Board.SIZE; j++) {
@@ -38,22 +38,21 @@ public class Game {
 					count++;
 				else
 					count = 0;
-				
+
 				if (count == 5)
 					return true;
 			}
 			count = 0;
 		}
-		
+
 		count = 0;
-		
 		for (int i = 0; i < Board.SIZE - 4; i++) {
 			for (int j = 0; i + j < Board.SIZE; j++) {
 				if (b.getTable()[i + j][j].toString().equals(check))
 					count++;
 				else
 					count = 0;
-				
+
 				if (count == 5)
 					return true;
 			}
@@ -65,64 +64,46 @@ public class Game {
 					count++;
 				else
 					count = 0;
-				
+
 				if (count == 5)
 					return true;
 			}
 			count = 0;
 		}
-		
+
 		count = 0;
-		for (int i = Board.SIZE - 1; i > 4; i--) {
-			for (int j = 0; i - j >= 0; j++) {
+		for (int i = 4; i < Board.SIZE; i++) {
+			for (int j = 0; j <= i; j++) {
 				if (b.getTable()[i - j][j].toString().equals(check))
 					count++;
 				else
 					count = 0;
-				
+
 				if (count == 5)
 					return true;
 			}
 			count = 0;
 		}
-		for (int i = Board.SIZE - 1; i > 4; i--) {
-			for (int j = 0; i - j >= 0; j++) {
-				if (b.getTable()[j][i - j].toString().equals(check))
+		for (int i = 4; i < Board.SIZE; i++) {
+			for (int j = 0; j <= i; j++) {
+				if (b.getTable()[Board.SIZE - (i - j) - 1][Board.SIZE - j - 1].toString().equals(check))
 					count++;
 				else
 					count = 0;
-				
+
 				if (count == 5)
 					return true;
 			}
-			count = 0;
 		}
-		
-		
-		return false;
-		
-	}
 
-	public void inputPlayer() {
-		String name, symValue;
-		System.out.print("Input Player 1's name: ");
-		name = scanner.nextLine();
-		System.out.print("Input Player 1's symbol: ");
-		symValue = scanner.nextLine();
-		p[0] = new Player(name, symValue);
-		System.out.print("Input Player 2's name: ");
-		name = scanner.nextLine();
-		System.out.print("Input Player 2's symbol: ");
-		symValue = scanner.nextLine();
-		p[1] = new Player(name, symValue);
+		return false;
 	}
 
 	public void start() {
-		System.out.print("Input size: ");
-		Board.SIZE = Integer.parseInt(scanner.nextLine());
+		Board.SIZE = 9;
 		b = new Board();
-
-		inputPlayer();
+		p[0] = new Player("Player 1", "O");
+		p[1] = new Player("Player 2", "X");
 
 		int turn = 0;
 		boolean end = false;
@@ -152,7 +133,7 @@ public class Game {
 
 			turn++;
 		} while (!end && turn < Board.SIZE * Board.SIZE);
-		
+
 		if (!end)
 			System.out.print("Draw.");
 	}
